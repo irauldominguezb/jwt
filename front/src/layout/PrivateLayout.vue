@@ -4,6 +4,9 @@
   <div class="w-100 h-100 bg-dark text-white">
     <div class="nav-bar">
       <div class="item" v-for="(item, ind) in items" :key="ind" @click="goTo(item.route)"> <span>{{item.name}}</span></div>
+      <div class="item"  @click="logout()">
+        <span>Cerrar sesión</span>
+      </div>
     </div>
     <router-view />
   </div>
@@ -16,15 +19,19 @@ export default {
       items: [
         {name: 'Home', route: 'home'},
         {name: 'Panel central', route: 'central-panel'},
-        {name: 'Panel admin', route: 'adminView'},
-        {name: 'Panel usuario', route: 'userView'}
+        {name: 'Panel admin', route: 'PanelAdmin'},
+        {name: 'Panel usuario', route: 'PanelUser'}
       ]
     }
   },
   methods: {
     goTo(route) {
       if (this.$route.name === route) return
-      this.$router.push({name: route})
+      window.location.href = `/${route}`
+    },
+    logout() {
+      localStorage.removeItem('token')
+      this.$router.push('/login')
     }
   }
 }
@@ -40,6 +47,12 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 8vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100%;
   }
 
   .item{
